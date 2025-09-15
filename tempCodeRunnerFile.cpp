@@ -1,0 +1,1 @@
+ vector<int> dist(g.V(), 0);
