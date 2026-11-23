@@ -27,10 +27,12 @@ not assign names, constraints, or expected outputs to individual exercises.
 
 | Path | Purpose |
 | --- | --- |
-| `juez1.cpp` ... `juez40.cpp` | Standalone C++ source files; each has its own `main` and reads/writes through standard streams. |
-| `juez1` ... `juez40` | Pre-existing compiled artifacts in the repository. They are not required to rebuild the sources. |
-| `juez8.dSYM.zip` | A debugger-symbol archive for one compiled artifact. |
-| `tempCodeRunnerFile.cpp` | An editor-generated scratch file; it is not part of the numbered collection. |
+| `solutions/trees/` | Tree-related standalone C++ solutions (`juez1.cpp` and `juez2.cpp`). |
+| `solutions/priority-queues/` | Priority-queue exercises (`juez3.cpp` ... `juez10.cpp`). |
+| `solutions/graphs/` | Graph and weighted-graph exercises (`juez11.cpp` ... `juez31.cpp`). |
+| `solutions/optimization/` | Later standalone optimization exercises (`juez32.cpp` ... `juez40.cpp`). |
+| `artifacts/macos-arm64/` | Pre-existing macOS ARM64 executables (`juez1` ... `juez23` and `juez25` ... `juez40`) and the `juez8.dSYM.zip` debugger-symbol archive. These are not required to rebuild the sources. |
+| `scratch/tempCodeRunnerFile.cpp` | An editor-generated scratch file; it is not part of the numbered collection. |
 
 Some implementations repeat course support code directly in the solution
 file. There is no shared library, build system, dependency manifest, or
@@ -50,7 +52,8 @@ Compile one exercise into a separate build directory:
 
 ```sh
 mkdir -p build
-g++ -std=c++17 -Wall -Wextra -pedantic juez28.cpp -o build/juez28
+g++ -std=c++17 -Wall -Wextra -pedantic \
+  solutions/graphs/juez28.cpp -o build/juez28
 ./build/juez28 < input.txt
 ```
 
@@ -58,9 +61,11 @@ To compile the numbered sources without overwriting the checked-in binaries:
 
 ```sh
 mkdir -p build
-for source in juez[0-9]*.cpp; do
+for source in solutions/*/juez[0-9]*.cpp; do
+  name=${source##*/}
+  name=${name%.cpp}
   g++ -std=c++17 -Wall -Wextra -pedantic "$source" \
-    -o "build/${source%.cpp}"
+    -o "build/$name"
 done
 ```
 
